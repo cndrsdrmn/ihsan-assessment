@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package blog.v1;
+
+import "blog/v1/blog.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/field_mask.proto";
+
+message BlogRequest {
+  option (buf.validate.message).oneof = {
+    fields: [
+      "create",
+      "read",
+      "update",
+      "delete"
+    ]
+    required: true
+  };
+
+  CreateRequest create = 1;
+  ReadRequest read = 2;
+  UpdateRequest update = 3;
+  DeleteRequest delete = 4;
+}
+
+message CreateRequest {
+  Blog blog = 1;
+}
+
+message ReadRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message UpdateRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  Blog blog = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message DeleteRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+}

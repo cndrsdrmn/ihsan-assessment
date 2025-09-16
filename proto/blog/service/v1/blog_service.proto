@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package blog.service.v1;
+
+import "blog/v1/blog.proto";
+import "blog/v1/request.proto";
+import "blog/v1/response.proto";
+
+service BlogService {
+  rpc ProcessMessage(ProcessMessageRequest) returns (ProcessMessageResponse);
+}
+
+message ProcessMessageRequest {
+  blog.v1.BlogRequest data = 1;
+}
+
+message ProcessMessageResponse {
+  blog.v1.Status status = 1;
+  blog.v1.Blog data = 2;
+}

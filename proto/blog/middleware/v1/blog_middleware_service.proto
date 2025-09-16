@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package blog.middleware.v1;
+
+import "blog/v1/blog.proto";
+import "blog/v1/request.proto";
+import "blog/v1/response.proto";
+import "buf/validate/validate.proto";
+
+service BlogMiddlewareService {
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+}
+
+message SendMessageRequest {
+  option (buf.validate.message).cel = {
+    id: "trx_type_create.require_create"
+    message: "transaction type 'create' must include create data"
+    expression: "this.trx_type != 'create' || (this.data != null && this.data.create != null)"
+  };
+  option (buf.validate.message).cel = {
+    id: "trx_type_read.require_read"
+    message: "transaction type 'read' must include read data"
+    expression: "this.trx_type != 'read' || (this.data != null && this.data.read != null)"
+  };
+  option (buf.validate.message).cel = {
+    id: "trx_type_update.require_update"
+    message: "transaction type 'update' must include update data"
+    expression: "this.trx_type != 'update' || (this.data != null && this.data.update != null)"
+  };
+  option (buf.validate.message).cel = {
+    id: "trx_type_delete.require_delete"
+    message: "transaction type 'delete' must include delete data"
+    expression: "this.trx_type != 'delete' || (this.data != null && this.data.delete != null)"
+  };
+
+  string trx_type = 1 [(buf.validate.field).string.pattern = "^(create|read|update|delete)$"];
+  blog.v1.BlogRequest data = 2;
+}
+
+message SendMessageResponse {
+  blog.v1.Status status = 1;
+  blog.v1.Blog data = 2;
+}

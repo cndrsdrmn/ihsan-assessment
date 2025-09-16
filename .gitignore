@@ -1,0 +1,46 @@
+# Binaries
+/bin/
+/*.exe
+/*.exe~
+/*.dll
+/*.so
+/*.dylib
+
+# Go build cache & output
+*.out
+*.test
+*.log
+*.prof
+*.pprof
+
+# IDE & editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# Dependency / vendor
+vendor/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Buf build/cache
+.buf/
+buf.lock
+
+# SQLite database
+*.sqlite
+*.db
+
+# Generated protobuf files (if you want to ignore and only keep proto definitions)
+/generated/
+
+# Local environment files
+.env
+.env.local
+.env.*
+
+go.sum
