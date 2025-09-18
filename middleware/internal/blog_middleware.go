@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 
 	pbm "github.com/cndrsdrmn/ihsan-assessment/generated/blog/middleware/v1"
 	pbs "github.com/cndrsdrmn/ihsan-assessment/generated/blog/service/v1"
@@ -17,6 +18,8 @@ type midd struct {
 }
 
 func (m *midd) SendMessage(ctx context.Context, req *pbm.SendMessageRequest) (*pbm.SendMessageResponse, error) {
+	fmt.Println("req", req)
+
 	res, err := m.service.ProcessMessage(ctx, &pbs.ProcessMessageRequest{
 		Data: req.GetData(),
 	})

@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/cndrsdrmn/ihsan-assessment/entities"
@@ -27,6 +28,8 @@ func (b *blogHandler) Create(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println("create", blog)
+
 	created, err := b.repo.Create(&blog)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create blog"})
@@ -45,6 +48,8 @@ func (b *blogHandler) Update(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	fmt.Println("update", req)
 
 	existing, err := b.repo.Read(id)
 	if err != nil {

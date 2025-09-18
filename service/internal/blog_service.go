@@ -34,6 +34,8 @@ func (s *srv) ProcessMessage(ctx context.Context, req *pbs.ProcessMessageRequest
 		return failure(codes.InvalidArgument, "blog data is missing")
 	}
 
+	fmt.Println("req", data)
+
 	switch {
 	case data.GetCreate() != nil:
 		return s.forwardToBackend(ctx, http.MethodPost, "/blogs", data.GetCreate())
@@ -110,8 +112,6 @@ func success(record *e.Blog) (*pbs.ProcessMessageResponse, error) {
 			Message: "Request processed successfully",
 		},
 	}
-
-	fmt.Println(record)
 
 	if record != nil {
 		resp.Data = &pb.Blog{
